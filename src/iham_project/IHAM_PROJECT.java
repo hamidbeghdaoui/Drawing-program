@@ -5,17 +5,19 @@
  */
 package iham_project;
 
+import iham_project.Controleur.JFrame_main;
+
 /**
  *
  * @author Hamid
- */
+     */
 public class IHAM_PROJECT {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        new JFrame_main().setVisible(true);
     }
     
 }
