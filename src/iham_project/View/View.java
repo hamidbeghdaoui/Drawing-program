@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package iham_project.Controleur;
+package iham_project.View;
 
 import iham_project.Modele.ListeModele;
 import iham_project.Modele.Modele;
@@ -40,22 +40,22 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Hamid
  */
-public class JFrame_main extends JFrame {
+public class View extends JFrame {
 
     Modele m;
     ListeModele lm;
 
-    public JFrame_main() {
+    public View() {
         setTitle("Interface main");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1200, 700);
         lm = new ListeModele();
         m = lm.getModele();
         initComponents();
-        synchronizationModel(false);
         setResizable(false);
         setLocationRelativeTo(null);
-
+        
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -63,55 +63,37 @@ public class JFrame_main extends JFrame {
         nav_bar();
         tool_bar();
         panel_left();
-        panel_graphique();
-
-        p_center = new JPanel();
-        p_center.setBorder(new EmptyBorder(20, 10, 10, 10));
-        p_center.setBackground(Color.white);
-
-        // function  event 
-        p_center.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                p2MouseDragged(evt);
-            }
-        });
-
-       
-
-        // end event
+        panel_graphique(true , 0 , 0);
+         
         add(p_left, BorderLayout.WEST);
-        add(p_center, BorderLayout.CENTER);
-        p_center.add(p_Graphique);
+        JScrollPane jsp = new JScrollPane(p_Graphique);
+        add(jsp, BorderLayout.CENTER);
+      
+      
     }
 
    
 
-    private void p2MouseDragged(java.awt.event.MouseEvent evt) {
-        Graphics2D g = (Graphics2D) getGraphics();
-        int x = p_left.getWidth() + 5 + evt.getX();
-        int y = menuBar.getHeight() + tb.getHeight() + 30 + evt.getY();
-        if (evt.getX() > 0 && evt.getY() > 0) {
-            printBtn(g, x, y, m.getW(), m.getH());
-        }
-
-    }
-
     // function Panel Imagepanel panem graphique
-    private void panel_graphique() {
-        String path = "C:\\Users\\Hamid\\Downloads\\Templates Bootstrap\\التعاليم للملابس التركية\\img\\portfolio\\logo2.png";
-         int w = 1100;
-          int h = 500;
+    public void panel_graphique(boolean ImageNull , int w  , int h) {
+      
         try {
-            // p_Graphique = new ImagePanel(path);
-          //  p_Graphique = new ImagePanel(1100, 500, path);
-           // Image img = ImageIO.read(new File(path)).getScaledInstance(w, h, Image.SCALE_SMOOTH);
-            p_Graphique = new ImagePanel(null);
-            p_Graphique.setImage(w, h, m.getImage());
+            if(ImageNull){
+                p_Graphique = new drawarea();
+            }else{
+              
+              p_Graphique.setSize(w, h);
+              
+        }
+           
+          
+         
+            
             
         } catch (Exception ex) {
-            Logger.getLogger(JFrame_main.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("iham_project.View.View.panel_graphique()");
         }
-         p_Graphique.setBackground(Color.white);
+       
       
     }
 
@@ -127,116 +109,108 @@ public class JFrame_main extends JFrame {
         p_left.setLayout(new BoxLayout(p_left, BoxLayout.PAGE_AXIS));
         p_left.setBorder(new EmptyBorder(20, 10, 10, 10));
         b_bgImage = new JButton(" ");
-        JLabel l1 = new JLabel("Background Image");
+        JLabel l1 = new JLabel("Background : ");
         l1.setBorder(new EmptyBorder(10, 2, 5, 2));
-        b_bgImage.setBackground(m.getBg_coler());
-        b_bgImage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ColorChooser("b_bgImage");
-                 
-            }
-        });
+       
 
         b_coler = new JButton(" ");
-        JLabel l2 = new JLabel("coler");
+        JLabel l2 = new JLabel("color :  ");
         l2.setBorder(new EmptyBorder(20, 2, 5, 2));
-        b_coler.setBackground(m.getColer());
-        b_coler.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ColorChooser("b_coler");
-                 
-            }
-        });
-
-        JLabel l3 = new JLabel("Outils");
-        l3.setBorder(new EmptyBorder(20, 2, 5, 2));
+        
+        JLabel l3 = new JLabel("Outils :");
 
         b_c1 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/c1.png")));
         b_r2 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/r2.png")));
         b_c2 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/c2.png")));
         b_r1 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/r1.png")));
         b_g = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/g.png")));
-        b_g.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_gActionPerformed(evt);
-            }
-        });
-
-        b_c1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActionPerformed(evt, "b_c1");
-            }
-        });
-
-        b_c2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActionPerformed(evt, "b_c2");
-            }
-        });
-
-        b_r1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActionPerformed(evt, "b_r1");
-            }
-        });
-
-        b_r2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActionPerformed(evt, "b_r2");
-            }
-        });
+        b_st = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/st.png")));
+       
 
         b_c1.setBackground(Color.white);
         b_c2.setBackground(Color.white);
         b_r1.setBackground(Color.white);
         b_r2.setBackground(Color.white);
-        b_g.setBackground(Color.white);
-        JLabel l_w = new JLabel("  W :");
-        l_w.setBorder(new EmptyBorder(20, 2, 5, 2));
+        b_st.setBackground(Color.white);
+        JLabel l_w = new JLabel("W      ");
+       // l_w.setBorder(new EmptyBorder(2, 2, 5, 2));
 
-        JLabel l_h = new JLabel("  H :");
-        l_h.setBorder(new EmptyBorder(20, 2, 5, 2));
+        JLabel l_h = new JLabel("      H");
+       // l_h.setBorder(new EmptyBorder(2, 2, 5, 2));
         tf_w = new JTextField("" + m.getW());
+        tf_w.setBorder(new EmptyBorder(5, 20, 5, 20));
         tf_h = new JTextField("" + m.getH());
+        tf_h.setBorder(new EmptyBorder(5, 20, 5, 20));
 
-        tf_w.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tf_w_h_Released(evt);
-            }
-
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tf_w_h_KeyTyped(evt, tf_w);
-            }
-        });
-
-        tf_h.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tf_w_h_Released(evt);
-            }
-
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tf_w_h_KeyTyped(evt, tf_h);
-            }
-        });
-
-        p_left.add(l1);
-        p_left.add(b_bgImage);
-        p_left.add(l2);
-        p_left.add(b_coler);
-        p_left.add(l3);
-        p_left.add(b_c1);
-        p_left.add(new JLabel(" "));
-        p_left.add(b_r2);
-        p_left.add(new JLabel(" "));
-        p_left.add(b_c2);
-        p_left.add(new JLabel(" "));
-        p_left.add(b_r1);
-        p_left.add(new JLabel(" "));
-        p_left.add(b_g);
-        p_left.add(l_w);
-        p_left.add(tf_w);
-        p_left.add(l_h);
-        p_left.add(tf_h);
+        JPanel pbg = new JPanel();
+        pbg.setLayout(new FlowLayout(FlowLayout.LEFT,5,15)); 
+        pbg.add(l1);
+        pbg.add(b_bgImage);
+        
+        JPanel pco = new JPanel();
+        pco.setLayout(new FlowLayout(FlowLayout.LEFT,5,15)); 
+        pco.add(l2);
+        pco.add(new JLabel("          "));
+        pco.add(b_coler);
+        
+        JPanel p1 = new JPanel();
+        p1.setLayout(new FlowLayout(FlowLayout.CENTER,5,15)); 
+        p1.add(b_r2);
+        p1.add(b_c1);
+        
+        JPanel p2 = new JPanel();
+        p2.setLayout(new FlowLayout(FlowLayout.CENTER,5,15)); 
+        p2.add(b_r1);
+        p2.add(b_c2);
+        
+        JPanel p3 = new JPanel();
+        p3.setLayout(new FlowLayout(FlowLayout.CENTER,5,15)); 
+        p3.add(b_g);
+        p3.add(b_st);
+        
+        JPanel p4 = new JPanel();
+        p4.setLayout(new FlowLayout(FlowLayout.CENTER,5,5)); 
+        p4.add(l_w);
+        p4.add(l_h);
+        
+        JPanel p5 = new JPanel();
+        p5.setLayout(new FlowLayout(FlowLayout.CENTER,5,5)); 
+        p5.add(tf_w);
+        p5.add(tf_h);
+        
+        JPanel p6 = new JPanel();
+        p6.setLayout(new FlowLayout(FlowLayout.CENTER,20,50));
+        LX = new JLabel("x : "+0);
+        LX.setFont(new java.awt.Font("Tahoma", 0, 11));
+        LY = new JLabel("Y : "+0);
+        LY.setFont(new java.awt.Font("Tahoma", 0, 11));
+        p6.add(LX);
+        p6.add(LY);
+        
+         JPanel p7= new JPanel();
+         p7.setLayout(new FlowLayout(FlowLayout.CENTER,0,0)); 
+        p7.add(l3);
+        pbg.setBackground(Color.white);
+        pco.setBackground(Color.white);
+        p1.setBackground(Color.white);
+        p2.setBackground(Color.white);
+        p3.setBackground(Color.white);
+        p4.setBackground(Color.white);
+        p6.setBackground(Color.white);
+        p7.setBackground(Color.white);
+        
+        p_left.add(pbg);
+        p_left.add(pco);
+        
+        p_left.add(p7);
+        
+        p_left.add(p1);
+        p_left.add(p2);
+        p_left.add(p3);
+        
+        p_left.add(p4);
+        p_left.add(p5);
+        p_left.add(p6);
 
     }
 
@@ -244,41 +218,29 @@ public class JFrame_main extends JFrame {
     private void tool_bar() {
         tb = new JToolBar();
         tb.setBackground(Color.white);
-        JButton b1 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/1.png")));
-        JButton b2 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/2.png")));
-        JButton b3 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/3.png")));
-        JButton b4 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/4.png")));
-        JButton b5 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/5.png")));
-        JButton b6 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/6.png")));
-        JButton b7 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/7.png")));
-        JButton b8 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/8.png")));
-        JButton b9 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/9.png")));
-        JButton b10 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/10.png")));
-        JButton b11 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/11.png")));
-        JButton b12 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/12.png")));
-        JButton b13 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/13.png")));
-        JButton b14 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/14.png")));
+         b1 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/1.png")));
+         b2 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/2.png")));
+         b3 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/3.png")));
+         b4 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/4.png")));
+         b5 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/5.png")));
+         b6 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/6.png")));
+         b7 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/7.png")));
+         b8 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/8.png")));
+         b9 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/9.png")));
+         b10 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/10.png")));
+         b11 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/11.png")));
+         b12 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/12.png")));
+         b13 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/13.png")));
+         b14 = new JButton(new ImageIcon(getClass().getResource("/icon/tool bar/14.png")));
         
         b8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m = lm.getMO();
-                synchronizationModel(false);
-                
-                System.out.println(lm.getMO().getBtn_select());
+
                     
                 
             }
         });
-        b14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    new Jframe_Affichage(p_center.getWidth()+5,p_center.getHeight()+30,createImage()).setVisible(true);
-                     //System.out.println("w :"+p_center.getWidth()+",h :"+p_center.getHeight());
-                    } catch (AWTException ex) {
-                    
-                }
-            }
-        });
+       
         b1.setBackground(Color.white);
         b2.setBackground(Color.white);
         b3.setBackground(Color.white);
@@ -528,147 +490,28 @@ public class JFrame_main extends JFrame {
 
     }
 
-    private void synchronizationModel(boolean bool) {
-        int w = 1100;
-          int h = 500;
-        btnSelectActive(m.getBtn_select());
-        if (m.getBtn_gomme_active()) {
-            b_g.setBackground(new java.awt.Color(153, 153, 153));
-        } else {
-            b_g.setBackground(Color.white);
-        }
-        tf_w.setText("" + m.getW());
-        tf_h.setText("" + m.getH());
-        b_bgImage.setBackground(m.getBg_coler());
-        b_coler.setBackground(m.getColer());
-        p_center.setBackground(m.getBg_coler());
-        p_Graphique.setBackground(m.getBg_coler());
-        p_Graphique.setImage(w, h, m.getImage());
-        if(bool){
-            roter();
-        }
-        
-    }
+
     
-    private void roter(){
-        int w = 1100;
-          int h = 500;
-                  String path = "C:\\Users\\Hamid\\Downloads\\Templates Bootstrap\\التعاليم للملابس التركية\\img\\portfolio\\logo2.png";
 
-           try {
-             //p_Graphique.setImage(w, h, m.getImage());
-             m= new Modele(m.getBg_coler(), m.getColer(), m.getW(), m.getH(), m.getBtn_select(), m.getBtn_gomme_active(), ImageIO.read(new File(path)).getScaledInstance(w, h, Image.SCALE_SMOOTH));
-             // Image img = ImageIO.read(new File(path)).getScaledInstance(w, h, Image.SCALE_SMOOTH);
-             lm.addModele(m);
-            //p_Graphique = new ImagePanel(null);
-           // p_Graphique.setImage(w, h, img);
-           
-             lm.afficherLM();
-        } catch (Exception E) {
-           
-        }
-    }
-    private void btnSelectActive(String btn) {
-        btnSelectNonActive();
-        switch (btn) {
-            case "b_c1":
-                b_c1.setBackground(new java.awt.Color(153, 153, 153));
-                break;
-            case "b_c2":
-                b_c2.setBackground(new java.awt.Color(153, 153, 153));
-                break;
-            case "b_r1":
-                b_r1.setBackground(new java.awt.Color(153, 153, 153));
-                break;
-            case "b_r2":
-                b_r2.setBackground(new java.awt.Color(153, 153, 153));
-        }
+ 
 
-    }
+ 
 
-    private void btnSelectNonActive() {
-        b_c1.setBackground(Color.white);
-        b_c2.setBackground(Color.white);
-        b_r1.setBackground(Color.white);
-        b_r2.setBackground(Color.white);
+  
 
-    }
+  
 
-    private void printBtn(Graphics2D g, int x, int y, int w, int h) {
-        String btn = m.getBtn_select();
-        g.setColor(m.getColer());
-        if (m.getBtn_gomme_active()) {
-            g.setColor(m.getBg_coler());
-        }
+   
 
-        switch (btn) {
-            case "b_c1":
-                g.drawOval(x, y, w, h);
-                break;
-            case "b_c2":
-                g.fillOval(x, y, w, h);
-                break;
-            case "b_r1":
-                g.fillRect(x, y, w, h);
-                break;
-            case "b_r2":
-                g.drawRect(x, y, w, h);
-        }
 
-    }
 
-    private void btnActionPerformed(java.awt.event.ActionEvent evt, String btn) {
-        m.setBtn_select(btn);
-        synchronizationModel(true);
-    }
 
-    private void b_gActionPerformed(java.awt.event.ActionEvent evt) {
-        m.setBtn_gomme_active(!m.getBtn_gomme_active());
-        synchronizationModel(true);
-    }
-
-    private void FonctionKeyNumiro(java.awt.event.KeyEvent evt) {
-        if (!Character.isDigit(evt.getKeyChar())) {
-            evt.consume();
-        }
-    }
-
-    private void lenghtinput(javax.swing.JTextField t, int taile) {
-        if (t.getText().trim().length() > taile) {
-            String s = "";
-            for (int i = 0; i < taile; i++) {
-                s = s + t.getText().charAt(i);
-
-            }
-            t.setText(s);
-
-        }
-    }
-
-    private void tf_w_h_KeyTyped(java.awt.event.KeyEvent evt, JTextField f) {
-        FonctionKeyNumiro(evt);
-        lenghtinput(f, 1);
-    }
-
-    private void tf_w_h_Released(java.awt.event.KeyEvent evt) {
-        m.setW(Integer.parseInt(tf_w.getText()));
-        m.setH(Integer.parseInt(tf_h.getText()));
-        synchronizationModel(true);
-    }
+   
     
-    private void ColorChooser(String btn){
-         Color newColor = JColorChooser.showDialog(null, "Choose a color", null);       
-         if(btn.equals("b_bgImage")){
-             m.setBg_coler(newColor);
-         }else{
-             m.setColer(newColor);
-         }
-         
-         synchronizationModel(true);
-    }
+   
     
-    private BufferedImage createImage() throws AWTException { 
-             int x = this.getX()+p_center.getX()+4 ;
+    public BufferedImage createImage() throws AWTException { 
+             int x = this.getX()+p_Graphique.getX()+4 ;
              int y = this.getY()+menuBar.getHeight()+tb.getHeight()+30 ;
              int w = 1049;
              int h = 607;
@@ -683,12 +526,16 @@ public class JFrame_main extends JFrame {
 
     //                                 varible 
     // btn p_left
-    JButton b_c1, b_r2, b_c2, b_r1, b_g, b_coler, b_bgImage;
+    JButton b_st, b_c1, b_r2, b_c2, b_r1, b_g, b_coler, b_bgImage;
+    
+    JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14;
     // Jtext fild
     JTextField tf_w, tf_h;
+    JLabel LX, LY;
 
     //panel
-    ImagePanel p_Graphique;
+    //ImagePanel p_Graphique;
+    drawarea p_Graphique;
     JPanel p_left, p_center;
 
     //tool bar
@@ -710,7 +557,6 @@ public class JFrame_main extends JFrame {
     JMenuItem Cercle, pinceau;
 
     JMenuItem Crayon, Rectangle, gomme;
-
     JMenuItem colorer_selection, balance_des_couleurs, inverser_couleurs, luminosite, contraste, flou_gaussien, flou_cinetique, renforcer_la_nettete, effet_soleil_levant, effet_toile_impressionniste, effet_mosaique, mode_niveaux_de_gris;
 
     JMenuItem Deplacement, Retourner;
@@ -719,4 +565,399 @@ public class JFrame_main extends JFrame {
 
     JMenuItem Aide_Aide, Aide_contextuelle;
 
+    public JButton getB1() {
+        return b1;
+    }
+
+    public JButton getB2() {
+        return b2;
+    }
+
+    public JButton getB3() {
+        return b3;
+    }
+
+    public JButton getB4() {
+        return b4;
+    }
+
+    public JButton getB5() {
+        return b5;
+    }
+
+    public JButton getB6() {
+        return b6;
+    }
+
+    public JButton getB7() {
+        return b7;
+    }
+
+    public JButton getB8() {
+        return b8;
+    }
+
+    public JButton getB9() {
+        return b9;
+    }
+
+    public JButton getB10() {
+        return b10;
+    }
+
+    public JButton getB11() {
+        return b11;
+    }
+
+    public JButton getB12() {
+        return b12;
+    }
+
+    public JButton getB13() {
+        return b13;
+    }
+
+    public JButton getB14() {
+        return b14;
+    }
+    
+    
+    
+     public JLabel getLX() {
+        return LX;
+    }
+
+    public JLabel getLY() {
+        return LY;
+    }
+    
+    
+     public Modele getM() {
+        return m;
+    }
+
+    public ListeModele getLm() {
+        return lm;
+    }
+
+    public JButton getB_st() {
+        return b_st;
+    }
+
+    public JButton getB_c1() {
+        return b_c1;
+    }
+
+    public JButton getB_r2() {
+        return b_r2;
+    }
+
+    public JButton getB_c2() {
+        return b_c2;
+    }
+
+    public JButton getB_r1() {
+        return b_r1;
+    }
+
+    public JButton getB_g() {
+        return b_g;
+    }
+
+    public JButton getB_coler() {
+        return b_coler;
+    }
+
+    public JButton getB_bgImage() {
+        return b_bgImage;
+    }
+
+    public JTextField getTf_w() {
+        return tf_w;
+    }
+
+    public JTextField getTf_h() {
+        return tf_h;
+    }
+
+    public drawarea getP_Graphique() {
+        return p_Graphique;
+    }
+
+    public JPanel getP_left() {
+        return p_left;
+    }
+
+    public JPanel getP_center() {
+        return p_center;
+    }
+
+    public JToolBar getTb() {
+        return tb;
+    }
+
+   
+
+    public JMenu getFichier() {
+        return Fichier;
+    }
+
+    public JMenu getEdition() {
+        return Edition;
+    }
+
+    public JMenu getInsertion() {
+        return Insertion;
+    }
+
+    public JMenu getOutils() {
+        return Outils;
+    }
+
+    public JMenu getCouleurs() {
+        return Couleurs;
+    }
+
+    public JMenu getMenuImage() {
+        return MenuImage;
+    }
+
+    public JMenu getAffichage() {
+        return Affichage;
+    }
+
+    public JMenu getAide() {
+        return Aide;
+    }
+
+    public JMenu getEdition_selection() {
+        return Edition_selection;
+    }
+
+    public JMenu getEdition_coller() {
+        return Edition_coller;
+    }
+
+    public JMenu getCouleurs_nettete() {
+        return Couleurs_nettete;
+    }
+
+    public JMenu getCouleurs_effets() {
+        return Couleurs_effets;
+    }
+
+    public JMenu getAffichage_rotation() {
+        return Affichage_rotation;
+    }
+
+    public JMenu getAffichage_zoom() {
+        return Affichage_zoom;
+    }
+
+    public JMenuItem getFichier_nouvelle_image() {
+        return Fichier_nouvelle_image;
+    }
+
+    public JMenuItem getFichier_ouvrir_fichier_image() {
+        return Fichier_ouvrir_fichier_image;
+    }
+
+    public JMenuItem getFichier_enregistrer() {
+        return Fichier_enregistrer;
+    }
+
+    public JMenuItem getFichier_enregistrer_sous() {
+        return Fichier_enregistrer_sous;
+    }
+
+    public JMenuItem getFichier_imprimer() {
+        return Fichier_imprimer;
+    }
+
+    public JMenuItem getFichier_mise_en_page() {
+        return Fichier_mise_en_page;
+    }
+
+    public JMenuItem getFichier_fermer_image() {
+        return Fichier_fermer_image;
+    }
+
+    public JMenuItem getFichier_quitter() {
+        return Fichier_quitter;
+    }
+
+    public JMenuItem getEdition_detection_de_contour() {
+        return Edition_detection_de_contour;
+    }
+
+    public JMenuItem getEdition_selectionner_tout() {
+        return Edition_selectionner_tout;
+    }
+
+    public JMenuItem getEdition_selection_par_couleurs() {
+        return Edition_selection_par_couleurs;
+    }
+
+    public JMenuItem getEdition_selection_rectangulaire() {
+        return Edition_selection_rectangulaire;
+    }
+
+    public JMenuItem getEdition_selection_a_main_levee() {
+        return Edition_selection_a_main_levee;
+    }
+
+    public JMenuItem getEdition_effacer_contenu_image() {
+        return Edition_effacer_contenu_image;
+    }
+
+    public JMenuItem getEdition_copier() {
+        return Edition_copier;
+    }
+
+    public JMenuItem getEdition_couper() {
+        return Edition_couper;
+    }
+
+    public JMenuItem getEdition_coller_coller() {
+        return Edition_coller_coller;
+    }
+
+    public JMenuItem getEdition_coller_comme_nouvelle_image() {
+        return Edition_coller_comme_nouvelle_image;
+    }
+
+    public JMenuItem getEdition_dupliquer_image() {
+        return Edition_dupliquer_image;
+    }
+
+    public JMenuItem getEdition_annuler() {
+        return Edition_annuler;
+    }
+
+    public JMenuItem getEdition_historique_d_annulation() {
+        return Edition_historique_d_annulation;
+    }
+
+    public JMenuItem getCercle() {
+        return Cercle;
+    }
+
+    public JMenuItem getPinceau() {
+        return pinceau;
+    }
+
+    public JMenuItem getCrayon() {
+        return Crayon;
+    }
+
+    public JMenuItem getRectangle() {
+        return Rectangle;
+    }
+
+    public JMenuItem getGomme() {
+        return gomme;
+    }
+
+    public JMenuItem getColorer_selection() {
+        return colorer_selection;
+    }
+
+    public JMenuItem getBalance_des_couleurs() {
+        return balance_des_couleurs;
+    }
+
+    public JMenuItem getInverser_couleurs() {
+        return inverser_couleurs;
+    }
+
+    public JMenuItem getLuminosite() {
+        return luminosite;
+    }
+
+    public JMenuItem getContraste() {
+        return contraste;
+    }
+
+    public JMenuItem getFlou_gaussien() {
+        return flou_gaussien;
+    }
+
+    public JMenuItem getFlou_cinetique() {
+        return flou_cinetique;
+    }
+
+    public JMenuItem getRenforcer_la_nettete() {
+        return renforcer_la_nettete;
+    }
+
+    public JMenuItem getEffet_soleil_levant() {
+        return effet_soleil_levant;
+    }
+
+    public JMenuItem getEffet_toile_impressionniste() {
+        return effet_toile_impressionniste;
+    }
+
+    public JMenuItem getEffet_mosaique() {
+        return effet_mosaique;
+    }
+
+    public JMenuItem getMode_niveaux_de_gris() {
+        return mode_niveaux_de_gris;
+    }
+
+    public JMenuItem getDeplacement() {
+        return Deplacement;
+    }
+
+    public JMenuItem getRetourner() {
+        return Retourner;
+    }
+
+    public JMenuItem getAjuster_l_image_a_la_fenetre() {
+        return Ajuster_l_image_a_la_fenetre;
+    }
+
+    public JMenuItem getPlein_ecran() {
+        return plein_ecran;
+    }
+
+    public JMenuItem getTaille_de_l_impression() {
+        return taille_de_l_impression;
+    }
+
+    public JMenuItem getTaille_de_l_image() {
+        return taille_de_l_image;
+    }
+
+    public JMenuItem getRotation_droite() {
+        return rotation_droite;
+    }
+
+    public JMenuItem getRotation_gauche() {
+        return rotation_gauche;
+    }
+
+    public JMenuItem getZoom_avant() {
+        return zoom_avant;
+    }
+
+    public JMenuItem getZoom_arriere() {
+        return zoom_arriere;
+    }
+
+    public JMenuItem getPreferences() {
+        return preferences;
+    }
+
+    public JMenuItem getAide_Aide() {
+        return Aide_Aide;
+    }
+
+    public JMenuItem getAide_contextuelle() {
+        return Aide_contextuelle;
+    }
+
 }
+
+

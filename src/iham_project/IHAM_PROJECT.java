@@ -5,7 +5,9 @@
  */
 package iham_project;
 
-import iham_project.Controleur.JFrame_main;
+import Controler.Controler;
+import iham_project.Modele.Modele;
+import iham_project.View.View;
 
 /**
  *
@@ -17,7 +19,8 @@ public class IHAM_PROJECT {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new JFrame_main().setVisible(true);
+        new Controler(new Modele() , new View());
+      // new View().setVisible(true);
     }
     
 }

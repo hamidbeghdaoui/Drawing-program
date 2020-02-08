@@ -7,6 +7,7 @@ package iham_project.Modele;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -17,14 +18,14 @@ public class Modele {
     private Color bg_coler = Color.WHITE;
     private Color coler = Color.black;
     private int W = 10, H = 10;
-    private String btn_select = "b_r2";
+    private String btn_select = "b_st";
     private Boolean btn_gomme_active = false;
-    Image image =null;
+    BufferedImage image =null;
 
     public Modele() {
 
     }
-    public Modele(Color bg_coler ,Color coler ,int W ,int H ,String btn_select ,Boolean btn_gomme_active ,Image image) {
+    public Modele(Color bg_coler ,Color coler ,int W ,int H ,String btn_select ,Boolean btn_gomme_active ,BufferedImage image) {
          this.bg_coler = bg_coler;
          this.coler = coler;
          this.H = H;
@@ -43,11 +44,12 @@ public class Modele {
     
     
 
-    public Image getImage() {
+    public BufferedImage getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(BufferedImage image) {
+        
         this.image = image;
     }
 

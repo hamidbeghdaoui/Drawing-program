@@ -3,32 +3,38 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package iham_project.Controleur;
+package iham_project.View;
 
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 /**
  *
  * @author Hamid
  */
 public class Jframe_Affichage extends JFrame {
-
-    public Jframe_Affichage(int w, int x, Image image) {
+   private  int w,h;
+    private BufferedImage image;
+    public Jframe_Affichage(int w, int h, BufferedImage image) {
+        this.image = image;
+        this.w = w;
+        this.h = h;
         setTitle("Interface affichage");
-        // setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(w, x);
-        initComponents(image);
+        setSize(1060,620 );
+        initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
 
     }
 
-    private void initComponents(Image image) {
+    private void initComponents() {
         setLayout(new BorderLayout(5, 5));
-        add(new ImagePanel(image), BorderLayout.CENTER);
+        JScrollPane jsp = new JScrollPane(new ImagePanel(image,w,h));
+        add(jsp, BorderLayout.CENTER);
     }
 
 }

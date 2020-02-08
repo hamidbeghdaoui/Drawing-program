@@ -3,60 +3,69 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package iham_project.Controleur;
+package iham_project.View;
 
-
-
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-class ImagePanel extends JPanel {
+public class ImagePanel extends JComponent {
 
-    int width, height;
-    Image bg;
-    BufferedImage img;
+    private BufferedImage image;
+    private int width ,height;
+    Graphics2D g2;
+
+    public ImagePanel(BufferedImage image,int width, int height) {
+        this.width =width;
+        this.height =width;
+        this.image = image;
+        
+    }
+   
+
   
-    public ImagePanel(int width, int height, String path) throws IOException {
-        img = ImageIO.read(new File(path));
-        if(img.getWidth()<width){
-         this.width =  img.getWidth();  
-        }else{
-        this.width = width;   
+    protected void paintComponent(Graphics g) {
+
+        if (image == null) {
+            image = (BufferedImage) createImage(getSize().width, getSize().height);
+            g2 = (Graphics2D) image.getGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            clear();
+        } else {
+            g2 = image.createGraphics();
         }
-        if(img.getHeight()<height){
-         this.height =  img.getHeight();  
-        }else{
-        this.height = height;   
-        }
-       
-        this.bg = ImageIO.read(new File(path)).getScaledInstance(this.width, this.height, Image.SCALE_SMOOTH);
+
+        g.drawImage(image, 0, 0, null);
     }
 
-    public ImagePanel(Image bg) {
-        this.bg = bg;
-    }
-    
-    public void setImage(int w , int h,Image bg){
-        this.width = w;
-        this.height = h;
-        this.bg = bg; 
-    }
-    
+  
+        public void clear() {
+        g2.setPaint(Color.BLACK);
+        g2.fillRect(0, 0, getSize().width, getSize().height);
+        g2.setPaint(Color.BLACK);
+        repaint();
 
-    @Override
-    public Dimension getPreferredSize() {
+    }
+
+  
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+    
+     public Dimension getPreferredSize() {
+         System.out.println("width = "+width+" , height = "+height);
         return new Dimension(width, height);
     }
 
-    @Override
-    protected void paintComponent(Graphics grphcs) {
-        super.paintComponent(grphcs);
-        grphcs.drawImage(bg, 0, 0, null);
-    }
 }
