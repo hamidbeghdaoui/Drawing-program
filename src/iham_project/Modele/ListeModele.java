@@ -5,51 +5,41 @@
  */
 package iham_project.Modele;
 
-import java.util.ArrayList;
+
+import java.util.LinkedList;
 
 public class ListeModele {
 
-    ArrayList<Modele> LM;
-    int i = -1;
+    LinkedList<Modele> CtrlZ;
+    LinkedList<Modele> CtrlY;
 
     public ListeModele() {
-        LM = new ArrayList<>();
-        LM.add(new Modele());
-        i = 0;
+        CtrlZ = new LinkedList<>();
+        CtrlY = new LinkedList<>();
+        CtrlZ.add(new Modele());
     }
-
+    private Modele getSomme(){
+        return CtrlZ.getFirst();
+    }
     public Modele getModele() {
-        return LM.get(i);
+        return getSomme();
     }
 
     public Modele getMO() {
-        if (LM.size()-1 > 0) {
-            i--;
-            return LM.get(i);
-        }
-        return LM.get(i);
+       if( CtrlZ.size() > 1){
+          CtrlY.addFirst( CtrlZ.getFirst() );
+          CtrlZ.removeFirst();
+       }
+      return CtrlZ.getFirst();
     }
 
     public Modele getPL() {
-        if (LM.size() > i) {
-            i++;
-            return LM.get(i);
-        }
-        return LM.get(i);
+         if( !CtrlY.isEmpty()){
+          CtrlZ.addFirst( CtrlY.getFirst() );
+          CtrlY.removeFirst();
+       }
+         return CtrlZ.getFirst();
     }
 
-    public void addModele(Modele m) {
-        i++;
-        LM.add(m);
-    }
-
-    
-    public  void afficherLM(){
-            System.out.println("_______________________");
-        for (int j = 0; j < LM.size(); j++) {
-            Modele m = LM.get(j);
-            System.out.println("getBtn_select :"+m.getBtn_select()+" , "+m.getColer()+","+m.getBtn_gomme_active()+","+m.getImage());
-            
-        }
-    }
+   
 }

@@ -72,7 +72,7 @@ public class drawarea extends JComponent {
                     if (Btn_gomme_active) {
                         g2.setPaint(bg);
                     }
-                    System.out.println(".mouseReleased()r = " + btn);
+                  //  System.out.println(".mouseReleased()r = " + btn);
                     switch (btn) {
                         case "b_r2":
                             if (RX - PX > 0 && RY - PY > 0) {
@@ -146,7 +146,7 @@ public class drawarea extends JComponent {
                             PY = currentY;
                             break;
                         case "b_c2":
-                            System.out.println("currentX =" + currentX + " , (currentX+w)/2) = " + (currentX + w) / 2 + "");
+                         //   System.out.println("currentX =" + currentX + " , (currentX+w)/2) = " + (currentX + w) / 2 + "");
                             g2.fillOval(currentX - ((w) / 2), +currentY - ((h) / 2), w, h);
                             break;
                         case "b_r1":

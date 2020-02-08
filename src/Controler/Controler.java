@@ -10,6 +10,8 @@ import iham_project.View.Jframe_Affichage;
 import iham_project.View.View;
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -33,13 +35,15 @@ public class Controler {
 
     private void synchronization() {
         V.getP_Graphique().Event(M.getBtn_select(), M.getBtn_gomme_active(), M.getW(), M.getH(), M.getColer(), M.getBg_coler());
- 
+
         V.getB_bgImage().setBackground(M.getBg_coler());
         V.getB_coler().setBackground(M.getColer());
         V.getTf_w().setText("" + M.getW());
         V.getTf_h().setText("" + M.getH());
-        if (M.getImage() != null) V.getP_Graphique().setImage(M.getImage());
-        
+        if (M.getImage() != null) {
+            V.getP_Graphique().setImage(M.getImage());
+        }
+
         btnSelectActive(M.getBtn_select());
         if (M.getBtn_gomme_active()) {
             V.getB_g().setBackground(new java.awt.Color(153, 153, 153));
@@ -147,27 +151,56 @@ public class Controler {
     }
 
     public void EventFortolBar() {
-      V.getB14().addActionListener(new java.awt.event.ActionListener() {
+        V.getB14().addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
-        System.out.println("iham_project.View.View.initComponents() w=" +V.getP_Graphique().getWidth() +" , h = "+V.getP_Graphique().getHeight());
-        
-                    BufferedImage image ;
-                    image = V.getP_Graphique().getImage();
-                    new Jframe_Affichage(image.getWidth(),image.getHeight(),image).setVisible(true);
-                  
+
+                System.out.println("iham_project.View.View.initComponents() w=" + V.getP_Graphique().getWidth() + " , h = " + V.getP_Graphique().getHeight());
+
+                BufferedImage image;
+                image = V.getP_Graphique().getImage();
+                new Jframe_Affichage(image.getWidth(), image.getHeight(), image).setVisible(true);
+
             }
         });
-      
-      V.getB2().addActionListener(new java.awt.event.ActionListener(){
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-       ImageChooser();
-       V.getP_Graphique().btnBgImage();
-      }
-      });
+
+        V.getB2().addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ImageChooser();
+                V.getP_Graphique().btnBgImage();
+            }
+        });
+
+        V.getB12().addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zom(true);
+
+            }
+        });
+
+        V.getB13().addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zom(false);
+            }
+        });
+
+        V.getB11().addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rotation();
+            }
+        });
+        V.getB10().addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                for (int i = 0; i < 3; i++) {
+                    
+                rotation();
+                }
+            }
+        });
+
     }
+
     public void EventForMenuBar() {
-     
+
     }
 
     private void ColorChooser(String btn) {
@@ -253,20 +286,83 @@ public class Controler {
             evt.consume();
         }
     }
-    
-    private void ImageChooser(){
+
+    private void ImageChooser() {
         try {
-            JFileChooser  chooser = new JFileChooser();
+            JFileChooser chooser = new JFileChooser();
             chooser.showOpenDialog(null);
             File file = chooser.getSelectedFile();
-            BufferedImage  img=ImageIO.read(file);
+            BufferedImage img = ImageIO.read(file);
             V.panel_graphique(false, img.getWidth(), img.getHeight());
             M.setImage(img);
         } catch (IOException ex) {
             Logger.getLogger(Controler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         synchronization();
+    }
+
+    private void rotation() {
+        BufferedImage img = V.getP_Graphique().getImage();
+        img = rotateCw(img );
+        // System.out.println(".actionPerformed() image = "+img);
+        V.panel_graphique(false, 300, 300);
+        //System.out.println(".actionPerformed() siZ  = "+V.getP_Graphique().getWidth());
+        M.setImage(img);
+        synchronization();
+        V.getP_Graphique().btnBgImage();
+    }
+
+    private void zom(boolean bool) {
+        BufferedImage img = V.getP_Graphique().getImage();
+        Image newImage;
+        if (bool) {
+            newImage = img.getScaledInstance((int) (img.getWidth() * 1.2), (int) (img.getHeight() * 1.2), Image.SCALE_DEFAULT);
+        } else {
+            newImage = img.getScaledInstance((int) (img.getWidth() * 0.8), (int) (img.getHeight() * 0.8), Image.SCALE_DEFAULT);
+
+        }
+        img = toBufferedImage(newImage);
+        // System.out.println(".actionPerformed() image = "+img);
+        V.panel_graphique(false, 300, 300);
+        //System.out.println(".actionPerformed() siZ  = "+V.getP_Graphique().getWidth());
+        M.setImage(img);
+        synchronization();
+        V.getP_Graphique().btnBgImage();
+
+    }
+
+    public static BufferedImage toBufferedImage(Image img) {
+        if (img instanceof BufferedImage) {
+            return (BufferedImage) img;
+        }
+
+        // Create a buffered image with transparency
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        // Draw the image on to the buffered image
+        Graphics2D bGr = bimage.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+
+        // Return the buffered image
+        return bimage;
+    }
+
+    public static BufferedImage rotateCw(BufferedImage img ) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        BufferedImage newImage = new BufferedImage(height, width, img.getType());
+        
+
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    newImage.setRGB(height - 1 - j, i, img.getRGB(i, j));
+                }
+            }
+
+       
+        return newImage;
     }
 
 }
