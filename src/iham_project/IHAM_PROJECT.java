@@ -6,6 +6,7 @@
 package iham_project;
 
 import Controler.Controler;
+import iham_project.Modele.ListeModele;
 import iham_project.Modele.Modele;
 import iham_project.View.View;
 
@@ -19,7 +20,7 @@ public class IHAM_PROJECT {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new Controler(new Modele() , new View());
+        new Controler(new ListeModele() , new View());
       // new View().setVisible(true);
     }
     

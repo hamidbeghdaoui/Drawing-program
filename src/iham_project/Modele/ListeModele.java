@@ -6,12 +6,15 @@
 package iham_project.Modele;
 
 
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 public class ListeModele {
 
     LinkedList<Modele> CtrlZ;
     LinkedList<Modele> CtrlY;
+    public BufferedImage coli =null;
+    
 
     public ListeModele() {
         CtrlZ = new LinkedList<>();
@@ -24,21 +27,42 @@ public class ListeModele {
     public Modele getModele() {
         return getSomme();
     }
-
+    public void insertLM(Modele M){
+        CtrlZ.add(M);
+    }
     public Modele getMO() {
-       if( CtrlZ.size() > 1){
-          CtrlY.addFirst( CtrlZ.getFirst() );
-          CtrlZ.removeFirst();
-       }
-      return CtrlZ.getFirst();
+      if(!CtrlZ.isEmpty()){
+        CtrlY.add( CtrlZ.getLast());
+        CtrlZ.removeLast();  
+      }
+      return CtrlZ.getLast();
     }
 
     public Modele getPL() {
          if( !CtrlY.isEmpty()){
-          CtrlZ.addFirst( CtrlY.getFirst() );
-          CtrlY.removeFirst();
+          CtrlZ.add( CtrlY.getLast());
+          CtrlY.removeLast();
        }
-         return CtrlZ.getFirst();
+         return CtrlZ.getLast();
+    }
+    
+    public int getCtrlZSize(){
+        return CtrlZ.size();
+    }
+    public int getCtrlYSize(){
+        return CtrlY.size();
+    }
+    
+    public void deleteListe(){
+        for (int i = 0; i < CtrlZ.size(); i++) {
+            CtrlZ.remove(i);
+            
+        }
+        for (int i = 0; i < CtrlY.size(); i++) {
+           CtrlY.remove(i);
+            
+        }
+        CtrlZ.add(new Modele());
     }
 
    
